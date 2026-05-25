@@ -10,6 +10,7 @@ __pycache__/
 .Python
 env/
 venv/
+.venv/
 ENV/
 .env
 build/
@@ -55,3 +56,6 @@ Thumbs.db
 *.bak
 *.tmp
 *.old
+
+# Local debugging artifacts
+screenshots/

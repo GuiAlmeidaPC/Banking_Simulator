@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Banking Simulator</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='28'%3E%F0%9F%8F%A6%3C/text%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">Banking Simulator</span>
+      </div>
+      <p class="brand-tag">Model the bank's economics of an amortizing loan.</p>
+    </header>
+
+    <main class="layout">
+      <section class="card form-card" aria-labelledby="form-title">
+        <h2 id="form-title" class="card-title">Loan parameters</h2>
+        <form id="loan-form" novalidate>
+          <div class="field">
+            <label for="principal">Principal</label>
+            <div class="input-affix">
+              <span class="affix" aria-hidden="true">$</span>
+              <input
+                id="principal"
+                name="principal"
+                type="number"
+                inputmode="decimal"
+                min="1"
+                step="any"
+                value="100000"
+                required
+              />
+            </div>
+            <p class="hint">The loan amount the bank originates.</p>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="annual_interest_rate">Interest rate</label>
+              <div class="input-affix affix-right">
+                <input
+                  id="annual_interest_rate"
+                  name="annual_interest_rate"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  value="6"
+                  required
+                />
+                <span class="affix" aria-hidden="true">% / yr</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="funding_cost_rate">Funding cost</label>
+              <div class="input-affix affix-right">
+                <input
+                  id="funding_cost_rate"
+                  name="funding_cost_rate"
+                  type="number"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  value="2"
+                  required
+                />
+                <span class="affix" aria-hidden="true">% / yr</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="years">
+              Term <span class="years-readout" id="years-readout">30 years</span>
+            </label>
+            <input
+              id="years"
+              name="years"
+              type="range"
+              min="1"
+              max="40"
+              step="1"
+              value="30"
+            />
+          </div>
+
+          <button type="submit" class="primary" id="submit-btn">
+            <span class="btn-label">Simulate</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
+          </button>
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+        </form>
+      </section>
+
+      <section class="results" aria-live="polite">
+        <div class="metric-grid" id="metric-grid">
+          <article class="card metric">
+            <p class="metric-label">Monthly payment</p>
+            <p class="metric-value" data-metric="monthly_payment">—</p>
+          </article>
+          <article class="card metric">
+            <p class="metric-label">Total repayments</p>
+            <p class="metric-value" data-metric="total_repayments">—</p>
+          </article>
+          <article class="card metric">
+            <p class="metric-label">Interest income</p>
+            <p class="metric-value positive" data-metric="interest_income">—</p>
+          </article>
+          <article class="card metric">
+            <p class="metric-label">Funding cost</p>
+            <p class="metric-value negative" data-metric="funding_cost">—</p>
+          </article>
+          <article class="card metric metric-highlight">
+            <p class="metric-label">Net interest income</p>
+            <p class="metric-value" data-metric="net_interest_income">—</p>
+          </article>
+          <article class="card metric metric-highlight">
+            <p class="metric-label">Net interest margin <span class="metric-sub">annualized</span></p>
+            <p class="metric-value" data-metric="net_interest_margin">—</p>
+          </article>
+        </div>
+
+        <div class="card chart-card">
+          <div class="chart-header">
+            <h2 class="card-title">Loan over time</h2>
+            <div class="legend" id="legend"></div>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="chart" aria-label="Loan amortization chart"></canvas>
+          </div>
+        </div>
+
+        <details class="card schedule-card">
+          <summary>
+            <span>Amortization schedule</span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </summary>
+          <div class="table-wrapper">
+            <table id="schedule-table">
+              <thead>
+                <tr>
+                  <th scope="col">Month</th>
+                  <th scope="col" class="num">Payment</th>
+                  <th scope="col" class="num">Interest</th>
+                  <th scope="col" class="num">Principal</th>
+                  <th scope="col" class="num">Funding</th>
+                  <th scope="col" class="num">Balance</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="/docs">API docs</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
