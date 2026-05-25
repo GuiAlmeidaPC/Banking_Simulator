@@ -89,6 +89,34 @@
             />
           </div>
 
+          <div class="field">
+            <label>Amortization regime</label>
+            <div class="segmented" role="radiogroup" aria-label="Amortization regime">
+              <input
+                id="amort-price"
+                type="radio"
+                name="amortization"
+                value="price"
+                checked
+              />
+              <label for="amort-price" class="seg-option">
+                <span class="seg-title">Price</span>
+                <span class="seg-sub">Level payment</span>
+              </label>
+
+              <input
+                id="amort-sac"
+                type="radio"
+                name="amortization"
+                value="sac"
+              />
+              <label for="amort-sac" class="seg-option">
+                <span class="seg-title">SAC</span>
+                <span class="seg-sub">Constant principal</span>
+              </label>
+            </div>
+          </div>
+
           <button type="submit" class="primary" id="submit-btn">
             <span class="btn-label">Simulate</span>
             <span class="btn-spinner" aria-hidden="true"></span>
@@ -100,8 +128,12 @@
       <section class="results" aria-live="polite">
         <div class="metric-grid" id="metric-grid">
           <article class="card metric">
-            <p class="metric-label">Monthly payment</p>
-            <p class="metric-value" data-metric="monthly_payment">—</p>
+            <p class="metric-label">First payment</p>
+            <p class="metric-value" data-metric="first_payment">—</p>
+          </article>
+          <article class="card metric">
+            <p class="metric-label">Last payment</p>
+            <p class="metric-value" data-metric="last_payment">—</p>
           </article>
           <article class="card metric">
             <p class="metric-label">Total repayments</p>

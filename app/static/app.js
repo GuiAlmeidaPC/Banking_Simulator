@@ -23,7 +23,8 @@
   });
 
   const FORMATTERS = {
-    monthly_payment: (v) => currency.format(v),
+    first_payment: (v) => currency.format(v),
+    last_payment: (v) => currency.format(v),
     total_repayments: (v) => currency.format(v),
     interest_income: (v) => currency.format(v),
     funding_cost: (v) => currency.format(v),
@@ -257,11 +258,13 @@
   }
 
   function readForm() {
+    const regime = form.querySelector('input[name="amortization"]:checked');
     return {
       principal: Number(form.principal.value),
       annual_interest_rate: Number(form.annual_interest_rate.value),
       years: Number(form.years.value),
       funding_cost_rate: Number(form.funding_cost_rate.value),
+      amortization: regime ? regime.value : "price",
     };
   }
 
@@ -286,6 +289,10 @@
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     run();
+  });
+  // Re-simulate when the user toggles the amortization regime.
+  form.querySelectorAll('input[name="amortization"]').forEach((el) => {
+    el.addEventListener("change", run);
   });
 
   // Initial render: populate with default values

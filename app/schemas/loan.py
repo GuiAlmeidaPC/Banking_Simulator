@@ -1,4 +1,13 @@
+from enum import Enum
+
 from pydantic import BaseModel, Field
+
+
+class AmortizationType(str, Enum):
+    """Supported amortization regimes."""
+
+    price = "price"  # French/Price system: constant total payment
+    sac = "sac"      # Sistema de Amortização Constante: constant principal
 
 
 class LoanRequest(BaseModel):
@@ -9,6 +18,9 @@ class LoanRequest(BaseModel):
     years: int = Field(..., gt=0, le=100, description="Loan duration in years")
     funding_cost_rate: float = Field(
         ..., ge=0, lt=100, description="Funding cost rate in percent (0 allowed)"
+    )
+    amortization: AmortizationType = Field(
+        AmortizationType.price, description="Amortization regime: 'price' or 'sac'"
     )
 
 
@@ -23,7 +35,9 @@ class AmortizationEntry(BaseModel):
 
 class LoanResponse(BaseModel):
     principal: float
-    monthly_payment: float
+    amortization: AmortizationType
+    first_payment: float
+    last_payment: float
     total_repayments: float
     interest_income: float
     funding_cost: float

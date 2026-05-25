@@ -319,6 +319,71 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
 }
 
+/* Segmented control */
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  gap: 4px;
+  position: relative;
+}
+
+.segmented input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.seg-option {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8px 10px;
+  border-radius: calc(var(--radius-sm) - 2px);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s, box-shadow 0.15s;
+  user-select: none;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.seg-title {
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+
+.seg-sub {
+  font-size: 11px;
+  margin-top: 2px;
+  opacity: 0.85;
+}
+
+.segmented input[type="radio"]:checked + .seg-option {
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.segmented input[type="radio"]:focus-visible + .seg-option {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.seg-option:hover {
+  color: var(--text);
+}
+.segmented input[type="radio"]:checked + .seg-option:hover {
+  color: var(--accent);
+}
+
 /* Submit button */
 .primary {
   width: 100%;
